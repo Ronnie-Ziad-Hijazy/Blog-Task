@@ -11,10 +11,9 @@ class ActivityLogApiTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_example(): void
+    public function test_can_test_list_activity_logs(): void
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $response = $this->getJson('/api/activity-logs');
+        $response->assertStatus(200)->assertJsonStructure(['logs']);
     }
 }
