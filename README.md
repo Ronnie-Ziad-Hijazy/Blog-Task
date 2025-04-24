@@ -167,18 +167,56 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 - `entity_type`: e.g. Post, Category
 - `entity_id`: e.g. 1,2,3
 - `sort`: e.g. desc, asc
-  
+
+#### Request
+`http://localhost:8000/api/activity-logs?sort=desc&action_type=DELETE&entity_type=Post&entity_id=566`
+
 #### Response
 ```json
-[
-  {
-    "id": 1,
-    "action_type": "DELETE",
-    "entity_type": "Post",
-    "entity_id": 10,
-    "created_at": "2025-04-24T08:23:00Z"
-  }
-]
+{
+    "success": true,
+    "logs": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 5020,
+                "action_type": "DELETE",
+                "changed_fields": null,
+                "entity_type": "Post",
+                "entity_id": 566,
+                "created_at": "2025-04-24T21:38:10.000000Z",
+                "updated_at": "2025-04-24T21:38:10.000000Z"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/activity-logs?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/activity-logs?page=1",
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "http://localhost:8000/api/activity-logs?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": null,
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/activity-logs",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 1,
+        "total": 1
+    }
+}
 ```
 
 ---
