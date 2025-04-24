@@ -13,9 +13,6 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 **Controller:** `PostController@store`
 **Service:** `PostService::createPost($data)`
 
-#### Request Body
-`Pagination Data` 
-
 #### Validation Rules
 - `title`: required, string, max:255
 - `content`: required, string
@@ -125,10 +122,37 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 
 #### Response
 ```json
-[
-  {"id": 1, "name": "Breaking News", "slug": "breaking-news" , "description": "Description 1"},
-  {"id": 2, "name": "Events", "slug": "events" , "description": "Description 2"}
-]
+{
+  "current_page": 1,
+  "data": [
+    {
+      "id": 1,
+      "name": "Breaking News",
+      "slug": "breaking-news",
+      "description": "Description 1",
+      "created_at": "2025-04-24T13:05:19.000000Z",
+      "updated_at": "2025-04-24T21:24:42.000000Z"
+    },
+    {
+      "id": 2,
+      "name": "Events",
+      "slug": "events",
+      "description": "Description 2",
+      "created_at": "2025-04-24T13:05:19.000000Z",
+      "updated_at": "2025-04-24T21:24:42.000000Z"
+    }
+  ],
+  "first_page_url": "http://localhost:8000/api/categories?page=1",
+  "from": 1,
+  "last_page": 5,
+  "last_page_url": "http://localhost:8000/api/categories?page=5",
+  "next_page_url": "http://localhost:8000/api/categories?page=2",
+  "path": "http://localhost:8000/api/categories",
+  "per_page": 2,
+  "prev_page_url": null,
+  "to": 2,
+  "total": 10
+}
 ```
 
 ---
@@ -141,19 +165,58 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 #### Query Parameters
 - `action_type`: e.g. CREATE, UPDATE, DELETE, READ
 - `entity_type`: e.g. Post, Category
-- `date`: `YYYY-MM-DD`
+- `entity_id`: e.g. 1,2,3
+- `sort`: e.g. desc, asc
+
+#### Request
+`http://localhost:8000/api/activity-logs?sort=desc&action_type=DELETE&entity_type=Post&entity_id=566`
 
 #### Response
 ```json
-[
-  {
-    "id": 1,
-    "action_type": "DELETE",
-    "entity_type": "Post",
-    "entity_id": 10,
-    "created_at": "2025-04-24T08:23:00Z"
-  }
-]
+{
+    "success": true,
+    "logs": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 5020,
+                "action_type": "DELETE",
+                "changed_fields": null,
+                "entity_type": "Post",
+                "entity_id": 566,
+                "created_at": "2025-04-24T21:38:10.000000Z",
+                "updated_at": "2025-04-24T21:38:10.000000Z"
+            }
+        ],
+        "first_page_url": "http://localhost:8000/api/activity-logs?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8000/api/activity-logs?page=1",
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "http://localhost:8000/api/activity-logs?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": null,
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/activity-logs",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 1,
+        "total": 1
+    }
+}
 ```
 
 ---
@@ -171,7 +234,6 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 ---
 
 ## Notes
-- Make sure to authenticate users if needed.
 - All endpoints return JSON responses.
 - All activity logs are automatically recorded via `ActivityLogService`.
 
@@ -194,4 +256,3 @@ Use Postman or Swagger UI to test endpoints. All CRUD operations should be follo
 ## Assumptions
 - Categories exist before posts can be created with a category_id.
 - Logging does not duplicate actions on the same day for the same entity/action.
-
