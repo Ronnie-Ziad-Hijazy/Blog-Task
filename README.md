@@ -122,10 +122,33 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 
 #### Response
 ```json
-[
-  {"id": 1, "name": "Breaking News", "slug": "breaking-news" , "description": "Description 1"},
-  {"id": 2, "name": "Events", "slug": "events" , "description": "Description 2"}
-]
+{
+  "current_page": 1,
+  "data": [
+    {
+      "id": 1,
+      "name": "Breaking News",
+      "slug": "breaking-news",
+      "description": "Description 1"
+    },
+    {
+      "id": 2,
+      "name": "Events",
+      "slug": "events",
+      "description": "Description 2"
+    }
+  ],
+  "first_page_url": "http://yourapi.com/api/categories?page=1",
+  "from": 1,
+  "last_page": 5,
+  "last_page_url": "http://yourapi.com/api/categories?page=5",
+  "next_page_url": "http://yourapi.com/api/categories?page=2",
+  "path": "http://yourapi.com/api/categories",
+  "per_page": 2,
+  "prev_page_url": null,
+  "to": 2,
+  "total": 10
+}
 ```
 
 ---
