@@ -13,9 +13,6 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 **Controller:** `PostController@store`
 **Service:** `PostService::createPost($data)`
 
-#### Request Body
-`Pagination Data` 
-
 #### Validation Rules
 - `title`: required, string, max:255
 - `content`: required, string
@@ -141,8 +138,9 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 #### Query Parameters
 - `action_type`: e.g. CREATE, UPDATE, DELETE, READ
 - `entity_type`: e.g. Post, Category
-- `date`: `YYYY-MM-DD`
-
+- `entity_id`: e.g. 1,2,3
+- `sort`: e.g. desc, asc
+  
 #### Response
 ```json
 [
