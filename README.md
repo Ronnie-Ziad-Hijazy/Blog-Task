@@ -142,12 +142,12 @@ This API provides endpoints for managing posts, categories, and activity logs. I
       "updated_at": "2025-04-24T21:24:42.000000Z"
     }
   ],
-  "first_page_url": "http://yourapi.com/api/categories?page=1",
+  "first_page_url": "http://localhost:8000/api/categories?page=1",
   "from": 1,
   "last_page": 5,
-  "last_page_url": "http://yourapi.com/api/categories?page=5",
-  "next_page_url": "http://yourapi.com/api/categories?page=2",
-  "path": "http://yourapi.com/api/categories",
+  "last_page_url": "http://localhost:8000/api/categories?page=5",
+  "next_page_url": "http://localhost:8000/api/categories?page=2",
+  "path": "http://localhost:8000/api/categories",
   "per_page": 2,
   "prev_page_url": null,
   "to": 2,
