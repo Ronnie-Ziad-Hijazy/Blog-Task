@@ -234,7 +234,6 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 ---
 
 ## Notes
-- Make sure to authenticate users if needed.
 - All endpoints return JSON responses.
 - All activity logs are automatically recorded via `ActivityLogService`.
 
