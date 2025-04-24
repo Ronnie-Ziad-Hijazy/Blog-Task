@@ -7,24 +7,19 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 
 ## Endpoints
 
-### 📌 `POST /api/posts`
+### `POST /api/posts`
 **Create a new post.**
 
 **Controller:** `PostController@store`
 **Service:** `PostService::createPost($data)`
 
 #### Request Body
-```json
-{
-  "title": "My First Post",
-  "content": "Hello World!",
-  "category_id": 1
-}
-```
+`Pagination Data` 
 
 #### Validation Rules
 - `title`: required, string, max:255
 - `content`: required, string
+- `author`: required, string
 - `category_id`: optional, must exist in categories
 
 #### Response (201)
@@ -49,9 +44,16 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 #### Response (200)
 ```json
 {
-  "id": 1,
-  "title": "My First Post",
-  "content": "Hello World"
+    "status": true,
+    "message": "Post retrieved successfully.",
+    "post": {
+        "id": 48,
+        "title": "ronnie hijazy 1",
+        "content": "ronnie hijazy content 2",
+        "author": "Ronnie hijazy 2",
+        "created_at": "2025-04-23T10:34:33.000000Z",
+        "updated_at": "2025-04-24T12:34:07.000000Z"
+    }
 }
 ```
 
@@ -67,7 +69,9 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 ```json
 {
   "title": "Updated Title",
-  "content": "Updated content."
+  "content": "Updated content.",
+  "author" : "Ronnie",
+  "category_id" : 13
 }
 ```
 
@@ -78,7 +82,11 @@ This API provides endpoints for managing posts, categories, and activity logs. I
   "message": "Post Updated Successfully.",
   "post": {
     "id": 1,
-    "title": "Updated Title"
+    "title": "Updated Title",
+    "content": "Deleted Content Post",
+    "author": "Ronnie",
+    "created_at": "2025-04-23T10:34:33.000000Z",
+    "updated_at": "2025-04-24T12:34:07.000000Z"
   }
 }
 ```
@@ -99,7 +107,11 @@ This API provides endpoints for managing posts, categories, and activity logs. I
   "message": "Post Deleted.",
   "post": {
     "id": 1,
-    "title": "Deleted Post"
+    "title": "Deleted Post",
+    "content": "Deleted Content Post",
+    "author": "Ronnie",
+    "created_at": "2025-04-23T10:34:33.000000Z",
+    "updated_at": "2025-04-24T12:34:07.000000Z"
   }
 }
 ```
@@ -114,8 +126,8 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 #### Response
 ```json
 [
-  {"id": 1, "name": "News"},
-  {"id": 2, "name": "Events"}
+  {"id": 1, "name": "Breaking News", "slug": "breaking-news" , "description": "Description 1"},
+  {"id": 2, "name": "Events", "slug": "events" , "description": "Description 2"}
 ]
 ```
 
@@ -129,7 +141,6 @@ This API provides endpoints for managing posts, categories, and activity logs. I
 #### Query Parameters
 - `action_type`: e.g. CREATE, UPDATE, DELETE, READ
 - `entity_type`: e.g. Post, Category
-- `actor_id`: integer
 - `date`: `YYYY-MM-DD`
 
 #### Response
@@ -140,7 +151,6 @@ This API provides endpoints for managing posts, categories, and activity logs. I
     "action_type": "DELETE",
     "entity_type": "Post",
     "entity_id": 10,
-    "actor_id": 1,
     "created_at": "2025-04-24T08:23:00Z"
   }
 ]
@@ -176,13 +186,12 @@ Use Postman or Swagger UI to test endpoints. All CRUD operations should be follo
 1. Clone the repo.
 2. Run `composer install`
 3. Configure `.env` file.
-4. Run migrations: `php artisan migrate`
+4. Run migrations: `php artisan migrate:fresh --seed`
 5. Serve: `php artisan serve`
 
 ---
 
 ## Assumptions
-- Users are authenticated via middleware.
 - Categories exist before posts can be created with a category_id.
 - Logging does not duplicate actions on the same day for the same entity/action.
 
