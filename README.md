@@ -129,13 +129,17 @@ This API provides endpoints for managing posts, categories, and activity logs. I
       "id": 1,
       "name": "Breaking News",
       "slug": "breaking-news",
-      "description": "Description 1"
+      "description": "Description 1",
+      "created_at": "2025-04-24T13:05:19.000000Z",
+      "updated_at": "2025-04-24T21:24:42.000000Z"
     },
     {
       "id": 2,
       "name": "Events",
       "slug": "events",
-      "description": "Description 2"
+      "description": "Description 2",
+      "created_at": "2025-04-24T13:05:19.000000Z",
+      "updated_at": "2025-04-24T21:24:42.000000Z"
     }
   ],
   "first_page_url": "http://yourapi.com/api/categories?page=1",
