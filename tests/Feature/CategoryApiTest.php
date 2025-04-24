@@ -36,8 +36,8 @@ class CategoryApiTest extends TestCase
 
     public function test_can_update_category()
     {
-        $category = Category::find(rand(1,10));
-        $categoryName = $category->name . rand(1,2000);
+        $category = Category::factory()->create();
+        $categoryName = $category->name . ' ' . rand(1,200000);
         $response = $this->putJson("/api/categories/{$category->id}", [
             'name' => $categoryName,
             'description' => 'Updated description'

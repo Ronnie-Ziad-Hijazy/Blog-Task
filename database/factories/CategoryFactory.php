@@ -19,7 +19,7 @@ class CategoryFactory extends Factory
     {
         $name = fake()->unique()->word();
         return [
-            'name' => ucfirst($name),
+            'name' => ucfirst($name) . ' ' . rand(1,20000),
             'slug' => Str::slug($name),
             'description' => fake()->sentence(),
             'created_at' => now(),

@@ -20,9 +20,10 @@ class PostApiTest extends TestCase
 
     public function test_can_create_post()
     {
-        $category = Category::find(rand(1,10));
+        $category = Category::factory()->create();
+        $title = 'Sample Post' . ' ' . rand(1,200000);
         $response = $this->postJson('/api/posts', [
-            'title' => 'Sample Post',
+            'title' => $title,
             'content' => 'Content here',
             'author' => 'Ronnie',
             'category_id' => $category->id,
@@ -31,7 +32,7 @@ class PostApiTest extends TestCase
         $response->assertStatus(201)
         ->assertJsonPath('success', true);
 
-        $this->assertDatabaseHas('posts', ['title' => 'Sample Post']);
+        $this->assertDatabaseHas('posts', ['title' => $title]);
     }
 
     public function test_can_show_post()
@@ -44,15 +45,16 @@ class PostApiTest extends TestCase
     public function test_can_update_post()
     {
         $post = Post::factory()->create();
+        $title = 'Updated Title' . '' . rand(1,20000);
         $response = $this->putJson("/api/posts/{$post->id}", [
-            'title' => 'Updated Title',
+            'title' => $title,
             'content' => $post->content,
             'author' => $post->author,
             'category_id' => $post->category_id,
         ]);
 
         $response->assertStatus(200)->assertJsonPath('success', true);
-        $this->assertDatabaseHas('posts', ['title' => 'Updated Title']);
+        $this->assertDatabaseHas('posts', ['title' => $title]);
     }
 
     public function test_can_delete_post()
