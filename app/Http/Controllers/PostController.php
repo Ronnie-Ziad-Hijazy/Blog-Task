@@ -6,27 +6,24 @@ use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use App\Services\ActivityLogService;
 use App\Services\PostService;
+use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
-    private $postService;
-
     /**
      * Post Construct
      *
      * @param \App\Services\PostService $postService
      */
-    public function __construct(PostService $postService)
-    {
-        $this->postService = $postService;
-    }
+    public function __construct(private readonly PostService $postService) {}
 
     /**
      * Retrieve Posts
      *
      * @return void
      */
-    public function index(){
+    public function index() : JsonResponse
+    {
         return response()->json(Post::with('category')->paginate(10));
     }
 
@@ -37,17 +34,14 @@ class PostController extends Controller
      *
      * @return void
      */
-    public function show($id){
-        $post = Post::find($id);
-        if(!$post){
-            return $this->fireError("Post Not Found" , 404);
-        }
+    public function show($id) : JsonResponse {
+        $post = $this->findPostOrFail($id);
         
         // Log activity
         ActivityLogService::log('READ', class_basename(Post::class), $post->id, null);
 
         return response()->json([
-            'status' => true,
+            'success' => true,
             'message' => 'Post retrieved successfully.',
             'post' => $post
         ]);
@@ -83,11 +77,8 @@ class PostController extends Controller
      * @return void
      */
     public function update(PostRequest $postRequest , int $id){
-        $post = Post::find($id);
+        $post = $this->findPostOrFail($id);
 
-        if(!$post){
-            return $this->fireError("Post Not Found" , 404);
-        }
         $this->postService->updatePost($postRequest->validated() , $id);
 
         // Log activity with changed fields
@@ -112,10 +103,7 @@ class PostController extends Controller
      * @return void
      */
     public function destroy($id){
-        $post = Post::find($id);
-        if(!$post){
-            return $this->fireError("Post Not Found" , 404);
-        }
+        $post = $this->findPostOrFail($id);
 
         // delete post
         $deletePost = $this->postService->deletePost($id);
@@ -124,9 +112,21 @@ class PostController extends Controller
         ActivityLogService::log('DELETE', class_basename(Post::class), $post->id, null);
 
         return response()->json([
-            'status' => true,
+            'success' => true,
             'message' => 'Post Deleted.',
             'post' => $deletePost
         ]);
+    }
+
+    private function findPostOrFail($id)
+    {
+        $post = Post::find($id);
+        if (!$post) {
+            abort(response()->json([
+                'success' => false,
+                'message' => 'Post Not Found',
+            ], 404));
+        }
+        return $post;
     }
 }

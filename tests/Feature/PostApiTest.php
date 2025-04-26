@@ -39,7 +39,7 @@ class PostApiTest extends TestCase
     {
         $post = Post::factory()->create();
         $response = $this->getJson("/api/posts/{$post->id}");
-        $response->assertStatus(200)->assertJsonPath('status', true);
+        $response->assertStatus(200)->assertJsonPath('success', true);
     }
 
     public function test_can_update_post()
