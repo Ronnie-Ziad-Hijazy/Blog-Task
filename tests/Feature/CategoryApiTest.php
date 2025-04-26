@@ -31,7 +31,7 @@ class CategoryApiTest extends TestCase
     {
         $category = Category::factory()->create();
         $response = $this->getJson("/api/categories/{$category->id}");
-        $response->assertStatus(200)->assertJsonPath('status', true);
+        $response->assertStatus(200)->assertJsonPath('success', true);
     }
 
     public function test_can_update_category()

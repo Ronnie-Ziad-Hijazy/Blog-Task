@@ -40,7 +40,7 @@ class CategoryController extends Controller
         ActivityLogService::log('READ', class_basename(Category::class), $category->id, null);
         
         return response()->json([
-            'status' => true,
+            'success' => true,
             'message' => 'Category retrieved successfully.',
             'category' => $category
         ]);
